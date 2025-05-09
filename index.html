@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript practice</title>
+</head>
+<style>
+   
+     
+    .container{
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        color: white;
+        display: flex;       
+        justify-content: center;
+        flex-wrap: wrap;
+        
+    }
+    .box{
+        width: 300px;
+        height: 400px;
+        display: inline-block;
+        border: 1px solid black;
+        border-radius: 10px;
+        margin: 10px;
+        
+        background-color: white;
+        color: black;
+        
+        
+
+    }
+    .box:hover{
+        background-color: purple;
+        color: white;
+        transform: scale(1.1);
+        transition: all 0.3s ease;
+    }
+    .navbar{
+        width: 100%;
+        height: 50px;
+        background-color:grey;
+        display: flex;
+        justify-content:end;
+        
+
+    }
+
+
+
+    a{
+        color: wheat;
+        margin: 10px;
+        ;
+    }
+
+    a:hover{
+        color: white;
+        transform: scale(1.1);
+        transition: all 0.3s ease;
+    }
+    .home{
+        width: 100%;
+        background-color: grey;
+        color: white;
+        display: flex;
+       flex-direction: column;
+       
+
+        
+
+        
+    }
+       
+    button{
+        width: 100px;
+        height: 50px;
+        background-color: white;
+        color: black;
+        border: none;
+        border-radius: 10px;
+        margin: 10px;
+    }
+button:hover{
+    background-color: rebeccapurple;
+    color: white;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+.shop_now{
+  display: inline-block;
+  margin: 10px;
+  
+  align-items: center;
+
+}
+
+.box img{
+    width: 300px;
+    height: 300px;
+    border-radius: 10px;
+    
+}
+
+.product h1{
+    justify-content: center;
+}
+
+</style>
+<body>
+  <div class="container">
+<div class="navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About us</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="product.html">Products</a>
+    <a href="cart.html" style="color: bisque;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg></a>
+</div>
+
+<div class="home">
+    
+    <h1>
+       Discover Amazing Products
+    </h1>
+    <p>
+        Shop the latest trends, find exclusive deals, and experience the best in online shopping with our curated collection.
+    </p><br><br>
+    <button class="shop_now">Shop now</button>
+     <button class="shop_now">Featured items</button>
+    
+</div>
+
+    <div class="product">
+
+    <h1>Featured Products</h1>
+    <p>Discover our handpicked selection of premium products that stand out for their quality, popularity, and exceptional value.</p>
+    <div class="box">
+        <img src="https://images.pexels.com/photos/914668/pexels-photo-914668.jpeg?auto=compress&cs=tinysrgb&w=600" alt="a trench coat">
+        
+        clothing
+
+    </div>
+    <div class="box">
+        <img src="https://images.pexels.com/photos/129208/pexels-photo-129208.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+        Electronics</div>
+    <div class="box">
+        <img src="https://images.pexels.com/photos/2995012/pexels-photo-2995012.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="">
+        Furniture</div>
+    <div class="box">
+        <img src="https://images.pexels.com/photos/2002429/pexels-photo-2002429.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+        Cutlery</div>
+    <div class="box">
+        <img src="https://images.pexels.com/photos/14883357/pexels-photo-14883357.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+        
+        Beddings</div>
+    <div class="box">
+        <img src="https://images.pexels.com/photos/760714/pexels-photo-760714.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
+        Stationery</div>
+    </div>
+</div>
+</body>
+</html>
