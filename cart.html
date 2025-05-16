@@ -2,30 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Cart</title>
+  <title>Your Cart</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      padding: 20px;
+      color: white;
     }
+
     .cart-item {
       border: 1px solid #ccc;
       padding: 10px;
-      margin: 10px;
+      margin: 10px 0;
     }
-    .cart-item button {
-      background-color: purple;
+
+    .cart-item input[type="number"] {
+      width: 50px;
+    }
+
+    #total {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    form {
+      margin-top: 30px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      color: black;
+    }
+
+    form input, form textarea {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    form button {
+      padding: 10px 20px;
+      background-color: green;
       color: white;
       border: none;
-      padding: 5px;
       cursor: pointer;
     }
-  </style>
-</head>
-<link rel="stylesheet" href="style.css">
-<body>
 
-     <div class="container">
-<div class="navbar">
+    .hidden {
+      display: none;
+    }
+
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="navbar">
     <a href="index.html">Home</a>
     <a href="about.html">About us</a>
     <a href="contact.html">Contact Us</a>
@@ -33,37 +70,110 @@
     <a href="cart.html" style="color: bisque;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg></a>
 </div>
 
-
   <h1>Your Shopping Cart</h1>
   <div id="cart-items"></div>
+  <div id="total"></div>
+
+  <form id="checkout-form" class="hidden">
+    <h2>Checkout</h2>
+    <label for="name">Full Name</label>
+    <input type="text" id="name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" required>
+
+    <label for="address">Shipping Address</label>
+    <textarea id="address" rows="3" required></textarea>
+
+    <button type="submit">Place Order</button>
+  </form>
+
+  <p id="message" class="success"></p>
 
   <script>
-    // Load cart items from localStorage
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartContainer = document.getElementById("cart-items");
+    const totalDiv = document.getElementById("total");
+    const checkoutForm = document.getElementById("checkout-form");
+    const message = document.getElementById("message");
 
-    if (cart.length === 0) {
-      cartContainer.innerHTML = "<p>Your cart is empty.</p>";
-    } else {
+    function renderCart() {
+      cartContainer.innerHTML = "";
+      let total = 0;
+
+      if (cart.length === 0) {
+        cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+        totalDiv.textContent = "";
+        checkoutForm.classList.add("hidden");
+        return;
+      }
+
       cart.forEach((item, index) => {
         const itemDiv = document.createElement("div");
         itemDiv.className = "cart-item";
+
+        const itemTotal = parseFloat(item.price) * item.quantity;
+        total += itemTotal;
+
         itemDiv.innerHTML = `
           <p><strong>${item.name}</strong></p>
           <p>Price: $${item.price}</p>
+          <label>Qty:
+            <input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)">
+          </label>
+          <p>Subtotal: $${itemTotal.toFixed(2)}</p>
           <button onclick="removeItem(${index})">Remove</button>
         `;
+
         cartContainer.appendChild(itemDiv);
       });
+
+      totalDiv.textContent = `Total: $${total.toFixed(2)}`;
+      checkoutForm.classList.remove("hidden");
     }
 
-    // Remove item function
     function removeItem(index) {
       cart.splice(index, 1);
       localStorage.setItem("cart", JSON.stringify(cart));
-      location.reload(); // Refresh the page to update cart display
+      renderCart();
     }
+
+    function updateQuantity(index, newQty) {
+      newQty = parseInt(newQty);
+      if (newQty >= 1) {
+        cart[index].quantity = newQty;
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
+    }
+
+    checkoutForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const address = document.getElementById("address").value.trim();
+
+      if (!name || !email || !address) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      // You could send this data to a backend server here
+      localStorage.removeItem("cart");
+      cart = [];
+      renderCart();
+      checkoutForm.reset();
+      checkoutForm.classList.add("hidden");
+      message.textContent = "Order placed successfully!";
+    });
+
+    // Initialize cart
+    cart = cart.map(item => ({
+      ...item,
+      quantity: item.quantity || 1
+    }));
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
   </script>
 
 </body>
